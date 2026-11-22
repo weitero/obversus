@@ -1,18 +1,27 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
-import MyPlugin from './main';
+import type KanaRomajiPlugin from './main';
+import { DEFAULT_TABLE_ID, TableID, TABLES } from './tables';
 
-export interface MyPluginSettings {
-	mySetting: string;
+export interface RomajiSettings {
+	tableId: TableID;
+	macron: boolean;
+	capitalize: boolean;
+	plainApostrophe: boolean;
 }
 
-export const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default',
+export const DEFAULT_SETTINGS: RomajiSettings = {
+	tableId: DEFAULT_TABLE_ID,
+	macron: true,
+	capitalize: false,
+	plainApostrophe: false,
 };
 
-export class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
+export const TABLE_IDS = Object.keys(TABLES) as TableID[];
 
-	constructor(app: App, plugin: MyPlugin) {
+export class RomajiSettingTab extends PluginSettingTab {
+	plugin: KanaRomajiPlugin;
+
+	constructor(app: App, plugin: KanaRomajiPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 	}
@@ -23,16 +32,52 @@ export class SampleSettingTab extends PluginSettingTab {
 		containerEl.empty();
 
 		new Setting(containerEl)
-			.setName('Settings #1')
-			.setDesc("It's a secret")
-			.addText((text) =>
-				text
-					.setPlaceholder('Enter your secret')
-					.setValue(this.plugin.settings.mySetting)
-					.onChange(async (value) => {
-						this.plugin.settings.mySetting = value;
+			.setName('Default conversion table')
+			.setDesc(
+				'Used by "to romaji" and "convert selection to romaji". The other entries always use their own table.',
+			)
+			.addDropdown((dropdown) => {
+				for (const id of TABLE_IDS) {
+					dropdown.addOption(id, TABLES[id].label);
+					dropdown.setValue(this.plugin.settings.tableId).onChange(async (value) => {
+						this.plugin.settings.tableId = value as TableID;
 						await this.plugin.saveSettings();
-					}),
+					});
+				}
+			});
+
+		new Setting(containerEl)
+			.setName('Mark long vowels with macrons')
+			.setDesc(
+				'Write ā, ū, ē, ō for long vowels. When off, vowels are written out (aa, uu, ee, ou',
+			)
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.macron).onChange(async (value) => {
+					this.plugin.settings.macron = value;
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName('Capitalize each word')
+			.setDesc(
+				'Capitalize the first letter of each space-separated word. Handy for names and titles.',
+			)
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.capitalize).onChange(async (value) => {
+					this.plugin.settings.capitalize = value;
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName('Use a plain apostrophe')
+			.setDesc("Write ' instead of ’ after ん before a vowel of y (tan'i instead of tan’i)")
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.plainApostrophe).onChange(async (value) => {
+					this.plugin.settings.plainApostrophe = value;
+					await this.plugin.saveSettings();
+				}),
 			);
 	}
 }

@@ -1,114 +1,130 @@
-import {
-	Editor,
-	MarkdownView,
-	MarkdownFileInfo,
-	Modal,
-	Notice,
-	Plugin,
-} from 'obsidian';
-import {
-	DEFAULT_SETTINGS,
-	MyPluginSettings,
-	SampleSettingTab,
-} from './settings';
+import { Editor, Notice, Plugin } from 'obsidian';
+import { containsKana, convert } from './converter';
+import { getTable, DEFAULT_TABLE_ID, TABLES, TableID } from './tables';
+import { DEFAULT_SETTINGS, RomajiSettings, RomajiSettingTab, TABLE_IDS } from './settings';
 
-// Remember to rename these classes and interfaces!
-
-export default class MyPlugin extends Plugin {
-	settings!: MyPluginSettings;
+export default class KanaRomajiPlugin extends Plugin {
+	settings: RomajiSettings = { ...DEFAULT_SETTINGS };
 
 	async onload() {
 		await this.loadSettings();
 
-		// This creates an icon in the left ribbon.
-		this.addRibbonIcon('dice', 'Sample', (_evt: MouseEvent) => {
-			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
-		});
-
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('Status bar text');
-
-		// This adds a simple command that can be triggered anywhere
 		this.addCommand({
-			id: 'open-modal-simple',
-			name: 'Open modal (simple)',
-			callback: () => {
-				new SampleModal(this.app).open();
-			},
+			id: 'convert-selection-to-romaji',
+			name: 'Convert selection to romaji',
+			callback: () => this.convertSelection(),
 		});
-		// This adds an editor command that can perform some operation on the current editor instance
-		this.addCommand({
-			id: 'replace-selected',
-			name: 'Replace selected content',
-			editorCallback: (
-				editor: Editor,
-				_ctx: MarkdownView | MarkdownFileInfo,
-			) => {
-				editor.replaceSelection('Sample editor command');
-			},
-		});
-		// This adds a complex command that can check whether the current state of the app allows execution of the command
-		this.addCommand({
-			id: 'open-modal-complex',
-			name: 'Open modal (complex)',
-			checkCallback: (checking: boolean) => {
-				// Conditions to check
-				const markdownView =
-					this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					// If checking is true, we're simply "checking" if the command can be run.
-					// If checking is false, then we want to actually perform the operation.
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
+		for (const id of TABLE_IDS) {
+			this.addCommand({
+				id: `convert-selection-to-romaji-${id}`,
+				name: `Convert selection to romaji (${TABLES[id].shortLabel})`,
+				callback: () => this.convertSelection(id),
+			});
+		}
 
-					// This command will only show up in Command Palette when the check function returns true
-					return true;
+		this.registerEvent(
+			this.app.workspace.on('editor-menu', (menu, editor) => {
+				if (!containsKana(editor.getSelection())) return;
+				menu.addItem((item) =>
+					item
+						.setTitle('To romaji')
+						.setIcon('languages')
+						.setSection('obversus')
+						.onClick(() => this.convertInEditor(editor)),
+				);
+				for (const id of TABLE_IDS) {
+					menu.addItem((item) =>
+						item
+							.setTitle(`To romaji (${TABLES[id].shortLabel})`)
+							.setIcon('languages')
+							.setSection('obversus')
+							.onClick(() => this.convertInEditor(editor, id)),
+					);
 				}
-				return false;
-			},
-		});
-
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
-
-		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
-		// Using this function will automatically remove the event listener when this plugin is disabled.
-		this.registerDomEvent(activeDocument, 'click', (_evt: MouseEvent) => {
-			new Notice('Click');
-		});
-
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(
-			window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000),
+			}),
 		);
+
+		this.addSettingTab(new RomajiSettingTab(this.app, this));
 	}
 
-	onunload() {}
+	toRomaji(text: string, tableId: TableID = this.settings.tableId): string {
+		return convert(text, getTable(tableId).table, {
+			macron: this.settings.macron,
+			capitalize: this.settings.capitalize,
+			apostrophe: this.settings.plainApostrophe ? "'" : '’',
+		});
+	}
+
+	convertSelection(tableId?: TableID) {
+		const active = activeDocument.activeElement;
+		const inNoteInput =
+			(active instanceof HTMLInputElement || active instanceof HTMLTextAreaElement) &&
+			!active.closest('.prompt, .modal');
+
+		if (inNoteInput) {
+			this.convertInInput(active, tableId);
+		} else if (
+			active instanceof HTMLElement &&
+			active.isContentEditable &&
+			!active.closest('.cm-editor, .prompt, .modal')
+		) {
+			this.convertInContentEditable(active, tableId);
+		} else {
+			this.convertInEditor(this.app.workspace.activeEditor?.editor, tableId);
+		}
+	}
+
+	private convertInEditor(editor: Editor | undefined, tableId?: TableID) {
+		const selection = editor?.getSelection();
+		if (!editor || !selection) {
+			new Notice('Select some kana characters first.');
+			return;
+		}
+		editor.replaceSelection(this.toRomaji(selection, tableId));
+	}
+
+	private convertInInput(input: HTMLInputElement | HTMLTextAreaElement, tableId?: TableID) {
+		const start = input.selectionStart ?? 0;
+		const end = input.selectionEnd ?? 0;
+		if (start === end) {
+			new Notice('Select some kana characters first.');
+			return;
+		}
+		const replaced = this.toRomaji(input.value.slice(start, end), tableId);
+		if (!activeDocument.execCommand('insertText', false, replaced)) {
+			input.setRangeText(replaced, start, end, 'end');
+			input.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+	}
+
+	private convertInContentEditable(el: HTMLElement, tableId?: TableID) {
+		const selection = activeWindow.getSelection();
+		const text = selection?.toString() ?? '';
+		if (!selection || selection.isCollapsed || !text) {
+			new Notice('Select some kana characters first.');
+			return;
+		}
+		const replaced = this.toRomaji(text, tableId);
+		if (!activeDocument.execCommand('insertText', false, replaced)) {
+			const range = selection.getRangeAt(0);
+			range.deleteContents();
+			range.insertNode(activeDocument.createTextNode(replaced));
+			el.dispatchEvent(new Event('input', { bubbles: true }));
+		}
+	}
 
 	async loadSettings() {
-		this.settings = Object.assign(
-			{},
-			DEFAULT_SETTINGS,
-			(await this.loadData()) as Partial<MyPluginSettings>,
-		);
+		const saved = (await this.loadData()) as Partial<RomajiSettings> | null;
+		this.settings = {
+			...DEFAULT_SETTINGS,
+			...saved,
+		};
+		if (!(this.settings.tableId in TABLES)) {
+			this.settings.tableId = DEFAULT_TABLE_ID;
+		}
 	}
 
 	async saveSettings() {
 		await this.saveData(this.settings);
-	}
-}
-
-class SampleModal extends Modal {
-	onOpen() {
-		const { contentEl } = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const { contentEl } = this;
-		contentEl.empty();
 	}
 }
