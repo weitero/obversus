@@ -177,6 +177,6 @@ const TABLES: Record<TableID, { label: string; shortLabel: string; table: Romaji
 	},
 };
 
-function getTable(id: TableID) {
+export function getTable(id: TableID) {
 	return TABLES[id];
 }

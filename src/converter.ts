@@ -11,7 +11,7 @@ const MACRON: Record<string, string> = { a: 'ā', i: 'ī', u: 'ū', e: 'ē', o: 
 const VOWELS = 'aiueo';
 const isVowel = (c: string) => c.length === 1 && VOWELS.includes(c);
 
-function containsKana(s: string): boolean {
+export function containsKana(s: string): boolean {
 	return /[\u3041-\u3096\u30a1-\u30fa]/u.test(s);
 }
 
@@ -24,7 +24,7 @@ function katakanaToHiragana(s: string): string {
 	return r;
 }
 
-function convert(input: string, table: RomajiTable, options: ConvertOptions = {}) {
+export function convert(input: string, table: RomajiTable, options: ConvertOptions = {}) {
 	const macron = options.macron ?? true;
 	const apostrophe = options.apostrophe ?? '’';
 	const text = katakanaToHiragana(input);
