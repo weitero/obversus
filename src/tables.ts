@@ -1,7 +1,7 @@
 import { RomajiTable } from './converter';
 
-type TableID = 'reiwa7' | 'showa29-table1' | 'showa29-table2';
-const DEFAULT_TABLE_ID: TableID = 'reiwa7';
+export type TableID = 'reiwa7' | 'showa29-table1' | 'showa29-table2';
+export const DEFAULT_TABLE_ID: TableID = 'reiwa7';
 
 const REIWA7: RomajiTable = {
 	あ: 'a',
@@ -163,7 +163,7 @@ const SHOWA29_TABLE2_OVERRIDES: RomajiTable = {
 	が: 'gwa',
 };
 
-const TABLES: Record<TableID, { label: string; shortLabel: string; table: RomajiTable }> = {
+export const TABLES: Record<TableID, { label: string; shortLabel: string; table: RomajiTable }> = {
 	reiwa7: { label: '2025 Guideline (Reiwa 7)', shortLabel: '2025', table: REIWA7 },
 	'showa29-table1': {
 		label: '1954 Table 1 (Kunrei-shiki)',
