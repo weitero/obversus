@@ -182,6 +182,18 @@ describe('capitalization', () => {
 	});
 });
 
+describe('capitalize katakana', () => {
+	it.each([
+		['イザナギノカミ', 'Izanaginokami'],
+		['アマテラス オオミカミ', 'Amaterasu Ōmikami'],
+		['スサノヲ-ノ-ミコト', 'Susanoo-no-mikoto'],
+	])('%s -> %s', (input: string, expected: string) => {
+		expect(convert(input, reiwa7, { capitalize: false, capitalizeKatakana: true })).toBe(
+			expected,
+		);
+	});
+});
+
 describe('1954 Table 1', () => {
 	it.each([
 		['しち', 'siti'],
