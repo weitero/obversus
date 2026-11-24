@@ -50,6 +50,7 @@ export default class KanaRomajiPlugin extends Plugin {
 	toRomaji(text: string, tableId: TableID = this.settings.tableId): string {
 		return convert(text, getTable(tableId).table, {
 			macron: this.settings.macron,
+			longVowelMark: this.settings.longVowelMark,
 			capitalize: this.settings.capitalize,
 			apostrophe: this.settings.plainApostrophe ? "'" : '’',
 		});

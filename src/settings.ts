@@ -1,10 +1,12 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
 import type KanaRomajiPlugin from './main';
 import { DEFAULT_TABLE_ID, TableID, TABLES } from './tables';
+import { LongVowelMark } from './converter';
 
 export interface RomajiSettings {
 	tableId: TableID;
 	macron: boolean;
+	longVowelMark: LongVowelMark;
 	capitalize: boolean;
 	plainApostrophe: boolean;
 }
@@ -12,6 +14,7 @@ export interface RomajiSettings {
 export const DEFAULT_SETTINGS: RomajiSettings = {
 	tableId: DEFAULT_TABLE_ID,
 	macron: true,
+	longVowelMark: 'macron',
 	capitalize: false,
 	plainApostrophe: false,
 };
@@ -57,6 +60,18 @@ export class RomajiSettingTab extends PluginSettingTab {
 					await this.plugin.saveSettings();
 				}),
 			);
+
+		new Setting(containerEl)
+			.setName('Long vowel mark')
+			.setDesc('Which mark to use when long vowels are marked: macron (¯) or circumflex (ˆ).')
+			.addDropdown((dropdown) => {
+				dropdown.addOption('macron', 'Macron (¯)');
+				dropdown.addOption('circumflex', 'Circumflex (ˆ)');
+				dropdown.setValue(this.plugin.settings.longVowelMark).onChange(async (value) => {
+					this.plugin.settings.longVowelMark = value as LongVowelMark;
+					await this.plugin.saveSettings();
+				});
+			});
 
 		new Setting(containerEl)
 			.setName('Capitalize each word')
