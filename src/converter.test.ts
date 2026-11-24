@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { getTable } from './tables';
-import { convert, containsKana } from './converter';
+import { convert, containsKana, isAllKatakana } from './converter';
 
 const reiwa7 = getTable('reiwa7').table;
 const showa29table1 = getTable('showa29-table1').table;
@@ -16,6 +16,19 @@ describe('containsKana', () => {
 		['', false],
 	])("'%s' -> %s", (input: string, expected: boolean) => {
 		expect(containsKana(input)).toBe(expected);
+	});
+});
+
+describe('isAllKatakana', () => {
+	it.each([
+		['いざなぎのかみ', false],
+		['イザナギノカミ', true],
+		['イザナギの神', false],
+		['伊邪那岐神', false],
+		['Izanaginokami', false],
+		['', false],
+	])("'%s' -> %s", (input: string, expected: boolean) => {
+		expect(isAllKatakana(input)).toBe(expected);
 	});
 });
 

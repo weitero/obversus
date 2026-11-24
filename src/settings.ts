@@ -8,6 +8,7 @@ export interface RomajiSettings {
 	macron: boolean;
 	longVowelMark: LongVowelMark;
 	capitalize: boolean;
+	capitalizeKatakana: boolean;
 	plainApostrophe: boolean;
 }
 
@@ -16,6 +17,7 @@ export const DEFAULT_SETTINGS: RomajiSettings = {
 	macron: true,
 	longVowelMark: 'macron',
 	capitalize: false,
+	capitalizeKatakana: true,
 	plainApostrophe: false,
 };
 
@@ -81,6 +83,18 @@ export class RomajiSettingTab extends PluginSettingTab {
 			.addToggle((toggle) =>
 				toggle.setValue(this.plugin.settings.capitalize).onChange(async (value) => {
 					this.plugin.settings.capitalize = value;
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName('Capitalize katakana')
+			.setDesc(
+				'When the selection is all katakana (for example a name or loanword), capitalize the first letter of each word.',
+			)
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.capitalizeKatakana).onChange(async (value) => {
+					this.plugin.settings.capitalizeKatakana = value;
 					await this.plugin.saveSettings();
 				}),
 			);

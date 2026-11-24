@@ -1,5 +1,5 @@
 import { Editor, Notice, Plugin } from 'obsidian';
-import { containsKana, convert } from './converter';
+import { containsKana, convert, isAllKatakana } from './converter';
 import { getTable, DEFAULT_TABLE_ID, TABLES, TableID } from './tables';
 import { DEFAULT_SETTINGS, RomajiSettings, RomajiSettingTab, TABLE_IDS } from './settings';
 
@@ -51,7 +51,9 @@ export default class KanaRomajiPlugin extends Plugin {
 		return convert(text, getTable(tableId).table, {
 			macron: this.settings.macron,
 			longVowelMark: this.settings.longVowelMark,
-			capitalize: this.settings.capitalize,
+			capitalize:
+				this.settings.capitalize ||
+				(this.settings.capitalizeKatakana && isAllKatakana(text)),
 			apostrophe: this.settings.plainApostrophe ? "'" : '’',
 		});
 	}
