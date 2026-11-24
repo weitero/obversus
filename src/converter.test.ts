@@ -69,6 +69,34 @@ describe('examples from the 2025 notice', () => {
 	});
 
 	it.each([
+		['かあさん', 'kâsan'],
+		['まあ', 'mâ'],
+		['かわいい', 'kawaii'],
+		['しいたけ', 'shiitake'],
+		['にいさん', 'niisan'],
+		['じゅうごや', 'jûgoya'],
+		['ふうりゅう', 'fûryû'],
+		['ええ', 'ê'],
+		['ねえさん', 'nêsan'],
+		['やじろべえ', 'yajirobê'],
+		['ていえん', 'teien'],
+		['とけいだい', 'tokeidai'],
+		['へいせい', 'heisei'],
+		['おおかみ', 'ôkami'],
+		['ほおずき', 'hôzuki'],
+		['とうほく', 'tôhoku'],
+		['ぼうそう', 'bôsô'],
+		['おおどうぐ', 'ôdôgu'],
+		['こおりどうふ', 'kôridôfu'],
+		['おおおじ', 'ôoji'],
+		['じゅうどう', 'jûdô'],
+		['とうきょう', 'tôkyô'],
+		['おおたわら', 'ôtawara'],
+	])('long vowels with a macron: %s -> %s', (input: string, expected: string) => {
+		expect(convert(input, reiwa7, { longVowelMark: 'circumflex' })).toBe(expected);
+	});
+
+	it.each([
 		['かあさん', 'kaasan'],
 		['まあ', 'maa'],
 		['かわいい', 'kawaii'],
