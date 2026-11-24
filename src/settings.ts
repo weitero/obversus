@@ -1,7 +1,7 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
+import { LongVowelMark } from './converter';
 import type KanaRomajiPlugin from './main';
 import { DEFAULT_TABLE_ID, TableID, TABLES } from './tables';
-import { LongVowelMark } from './converter';
 
 export interface RomajiSettings {
 	tableId: TableID;

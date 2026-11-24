@@ -1,7 +1,7 @@
 import { Editor, Notice, Plugin } from 'obsidian';
-import { containsKana, convert, isAllKatakana } from './converter';
-import { getTable, DEFAULT_TABLE_ID, TABLES, TableID } from './tables';
+import { containsKana, convert } from './converter';
 import { DEFAULT_SETTINGS, RomajiSettings, RomajiSettingTab, TABLE_IDS } from './settings';
+import { DEFAULT_TABLE_ID, getTable, TableID, TABLES } from './tables';
 
 export default class KanaRomajiPlugin extends Plugin {
 	settings: RomajiSettings = { ...DEFAULT_SETTINGS };

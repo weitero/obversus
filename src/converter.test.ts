@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import { containsKana, convert, isAllKatakana } from './converter';
 import { getTable } from './tables';
-import { convert, containsKana, isAllKatakana } from './converter';
 
 const reiwa7 = getTable('reiwa7').table;
 const showa29table1 = getTable('showa29-table1').table;
