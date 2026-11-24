@@ -51,9 +51,8 @@ export default class KanaRomajiPlugin extends Plugin {
 		return convert(text, getTable(tableId).table, {
 			macron: this.settings.macron,
 			longVowelMark: this.settings.longVowelMark,
-			capitalize:
-				this.settings.capitalize ||
-				(this.settings.capitalizeKatakana && isAllKatakana(text)),
+			capitalize: this.settings.capitalize,
+			capitalizeKatakana: this.settings.capitalizeKatakana,
 			apostrophe: this.settings.plainApostrophe ? "'" : '’',
 		});
 	}

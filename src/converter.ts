@@ -5,6 +5,7 @@ interface ConvertOptions {
 	macron?: boolean;
 	longVowelMark?: LongVowelMark;
 	capitalize?: boolean;
+	capitalizeKatakana?: boolean;
 	apostrophe?: string;
 }
 
@@ -112,7 +113,7 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 	}
 
 	const res = out.join('');
-	if (options.capitalize) {
+	if (options.capitalize || (options.capitalizeKatakana && isAllKatakana(input))) {
 		return res.replace(
 			/(^|\s)(\S)/gu,
 			(_, space: string, c: string) => space + c.toUpperCase(),
