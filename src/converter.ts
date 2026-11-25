@@ -23,7 +23,7 @@ export function isAllKatakana(s: string): boolean {
 	return /[\u30a1-\u30fa]/u.test(s) && !/[\u3041-\u3096]/u.test(s);
 }
 
-function katakanaToHiragana(s: string): string {
+export function katakanaToHiragana(s: string): string {
 	let r = '';
 	for (const ch of s) {
 		const c = ch.codePointAt(0)!;
