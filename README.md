@@ -47,6 +47,7 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
 - Long vowels are inferred from the kana (おう, おお, ー), so verb endings like
   give "omō".
 - Particles (は, へ, を) are converted literally (ha, he, o).
+- Conversion in title and properties works only in viewing mode.
 
 ## Sources and disclaimer
 
