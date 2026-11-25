@@ -40,7 +40,7 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
 ## Known limits
 
 - Kana only; kanji are left unchanged.
-- A trailing っ is left as is.
+- A trailing っ, or a っ followed by a vowel, is left as is.
 - ん before a vowel or y gets an apostrophe (tan’i). The apostrophe that
   separates vowel sequences that are not long vowels (ko’uta) can't be inferred
   from kana alone.
