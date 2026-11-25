@@ -1,10 +1,10 @@
 import { Editor, Notice, Plugin } from 'obsidian';
 import { containsKana, convert } from './converter';
-import { DEFAULT_SETTINGS, RomajiSettings, RomajiSettingTab, TABLE_IDS } from './settings';
+import { DEFAULT_SETTINGS, KanaRomajiSettings, RomajiSettingTab, TABLE_IDS } from './settings';
 import { DEFAULT_TABLE_ID, EXTENDED_TABLE, getTable, TableID, TABLES } from './tables';
 
 export default class KanaRomajiPlugin extends Plugin {
-	settings: RomajiSettings = { ...DEFAULT_SETTINGS };
+	settings: KanaRomajiSettings = { ...DEFAULT_SETTINGS };
 
 	async onload() {
 		await this.loadSettings();
@@ -120,7 +120,7 @@ export default class KanaRomajiPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		const saved = (await this.loadData()) as Partial<RomajiSettings> | null;
+		const saved = (await this.loadData()) as Partial<KanaRomajiSettings> | null;
 		this.settings = {
 			...DEFAULT_SETTINGS,
 			...saved,

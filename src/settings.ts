@@ -4,7 +4,7 @@ import { ExtendedTableModal } from './extended-table-modal';
 import type KanaRomajiPlugin from './main';
 import { DEFAULT_TABLE_ID, EXTENDED_TABLE, TableID, TABLES } from './tables';
 
-export interface RomajiSettings {
+export interface KanaRomajiSettings {
 	tableId: TableID;
 	macron: boolean;
 	longVowelMark: LongVowelMark;
@@ -14,7 +14,7 @@ export interface RomajiSettings {
 	extendedTable: RomajiTable;
 }
 
-export const DEFAULT_SETTINGS: RomajiSettings = {
+export const DEFAULT_SETTINGS: KanaRomajiSettings = {
 	tableId: DEFAULT_TABLE_ID,
 	macron: true,
 	longVowelMark: 'macron',
