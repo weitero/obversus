@@ -1,7 +1,8 @@
 import { App, PluginSettingTab, Setting } from 'obsidian';
-import { LongVowelMark } from './converter';
+import { LongVowelMark, RomajiTable } from './converter';
+import { ExtendedTableModal } from './extended-table-modal';
 import type KanaRomajiPlugin from './main';
-import { DEFAULT_TABLE_ID, TableID, TABLES } from './tables';
+import { DEFAULT_TABLE_ID, EXTENDED_TABLE, TableID, TABLES } from './tables';
 
 export interface RomajiSettings {
 	tableId: TableID;
@@ -10,6 +11,7 @@ export interface RomajiSettings {
 	capitalize: boolean;
 	capitalizeKatakana: boolean;
 	plainApostrophe: boolean;
+	extendedTable: RomajiTable;
 }
 
 export const DEFAULT_SETTINGS: RomajiSettings = {
@@ -19,6 +21,7 @@ export const DEFAULT_SETTINGS: RomajiSettings = {
 	capitalize: false,
 	capitalizeKatakana: true,
 	plainApostrophe: false,
+	extendedTable: { ...EXTENDED_TABLE },
 };
 
 export const TABLE_IDS = Object.keys(TABLES) as TableID[];
@@ -106,6 +109,26 @@ export class RomajiSettingTab extends PluginSettingTab {
 				toggle.setValue(this.plugin.settings.plainApostrophe).onChange(async (value) => {
 					this.plugin.settings.plainApostrophe = value;
 					await this.plugin.saveSettings();
+				}),
+			);
+
+		const count = Object.keys(this.plugin.settings.extendedTable).length;
+		new Setting(containerEl)
+			.setName('Extended table')
+			.setDesc(
+				`Your own kana-to-romaji spellings. They override all other tables. Currently ${count} ${count === 1 ? 'entry' : 'entries'}.`,
+			)
+			.addButton((button) =>
+				button.setButtonText('Edit entries').onClick(() => {
+					new ExtendedTableModal(
+						this.app,
+						this.plugin.settings.extendedTable,
+						async (table) => {
+							this.plugin.settings.extendedTable = table;
+							await this.plugin.saveSettings();
+						},
+						() => this.display(),
+					).open();
 				}),
 			);
 	}

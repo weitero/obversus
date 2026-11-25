@@ -1,4 +1,4 @@
-import { RomajiTable } from './converter';
+import { RomajiTable, katakanaToHiragana } from './converter';
 
 export type TableID = 'reiwa7' | 'showa29-table1' | 'showa29-table2';
 export const DEFAULT_TABLE_ID: TableID = 'reiwa7';
@@ -179,4 +179,29 @@ export const TABLES: Record<TableID, { label: string; shortLabel: string; table:
 
 export function getTable(id: TableID) {
 	return TABLES[id];
+}
+
+export const EXTENDED_TABLE: RomajiTable = { くゎ: 'kwa', ぐゎ: 'gwa' };
+const KANA_KEY = /^[\u3041-\u3096\u30a1-\u30fa\u30fc]{1,2}$/u;
+
+type EntryResult = { ok: true; table: RomajiTable; message: string } | { ok: false; error: string };
+
+export function addEntry(table: RomajiTable, kana: string, romaji: string): EntryResult {
+	const k = kana.trim();
+	const r = romaji.trim();
+	if (!KANA_KEY.test(k)) return { ok: false, error: 'Kana must be one or two kana characters.' };
+	if (r === '' || /\s/.test(r))
+		return { ok: false, error: 'Romaji must be one word with no spaces.' };
+	const key = katakanaToHiragana(k);
+	const old = table[key];
+	return {
+		ok: true,
+		table: { ...table, [key]: r },
+		message: old === undefined ? `Added ${key} -> ${r}` : `Updated ${key}:${old} -> ${r}`,
+	};
+}
+
+export function removeEntry(table: RomajiTable, key: string): RomajiTable {
+	const { [key]: _removed, ...rest } = table;
+	return rest;
 }

@@ -1,7 +1,7 @@
 import { Editor, Notice, Plugin } from 'obsidian';
 import { containsKana, convert } from './converter';
 import { DEFAULT_SETTINGS, RomajiSettings, RomajiSettingTab, TABLE_IDS } from './settings';
-import { DEFAULT_TABLE_ID, getTable, TableID, TABLES } from './tables';
+import { DEFAULT_TABLE_ID, EXTENDED_TABLE, getTable, TableID, TABLES } from './tables';
 
 export default class KanaRomajiPlugin extends Plugin {
 	settings: RomajiSettings = { ...DEFAULT_SETTINGS };
@@ -48,13 +48,17 @@ export default class KanaRomajiPlugin extends Plugin {
 	}
 
 	toRomaji(text: string, tableId: TableID = this.settings.tableId): string {
-		return convert(text, getTable(tableId).table, {
-			macron: this.settings.macron,
-			longVowelMark: this.settings.longVowelMark,
-			capitalize: this.settings.capitalize,
-			capitalizeKatakana: this.settings.capitalizeKatakana,
-			apostrophe: this.settings.plainApostrophe ? "'" : '’',
-		});
+		return convert(
+			text,
+			{ ...getTable(tableId).table, ...this.settings.extendedTable },
+			{
+				macron: this.settings.macron,
+				longVowelMark: this.settings.longVowelMark,
+				capitalize: this.settings.capitalize,
+				capitalizeKatakana: this.settings.capitalizeKatakana,
+				apostrophe: this.settings.plainApostrophe ? "'" : '’',
+			},
+		);
 	}
 
 	convertSelection(tableId?: TableID) {
@@ -123,6 +127,10 @@ export default class KanaRomajiPlugin extends Plugin {
 		};
 		if (!(this.settings.tableId in TABLES)) {
 			this.settings.tableId = DEFAULT_TABLE_ID;
+		}
+		const ext = this.settings.extendedTable;
+		if (typeof ext !== 'object' || ext === null) {
+			this.settings.extendedTable = { ...EXTENDED_TABLE };
 		}
 	}
 
