@@ -91,6 +91,10 @@ The two "1954" tables are kept for backward compatibility. That notice ([昭和2
 was abolished by the 2025 notice. Their spellings are taken from the comparison
 table (対照表) of the 2025 notice.
 
+Additional romanization data not stated in the above notices (i.e. using t forっ
+before ch and m for ん before b, p, and m) were checked against [ローマ字
+表](https://jgrammar.life.coocan.jp/ja/data/rohmaji2.htm).
+
 All pages accessed 20 November 2026. The tables were transcribed and adapted for
 this plugin.
 
