@@ -8,6 +8,7 @@ interface ConvertOptions {
 	capitalizeKatakana?: boolean;
 	apostrophe?: string;
 	tBeforeCh?: boolean;
+	mBeforeLabial?: boolean;
 }
 
 const LONG_VOWEL_KANA: Record<string, string> = { a: 'あ', u: 'う', e: 'え', o: 'おう' };
@@ -44,6 +45,7 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 	const marks = options.longVowelMark === 'circumflex' ? CIRCUMFLEX : MACRON;
 	const apostrophe = options.apostrophe ?? '’';
 	const tBeforeCh = options.tBeforeCh ?? false;
+	const mBeforeLabial = options.mBeforeLabial ?? false;
 
 	const text = katakanaToHiragana(input);
 	const out: string[] = [];
@@ -102,7 +104,8 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 		if (ch === 'ん') {
 			const next = lookup(i + 1);
 			out.push(
-				(table[ch] ?? 'n') + (next && /^[aiueoy]/.test(next.romaji) ? apostrophe : ''),
+				(mBeforeLabial && next && /^[bpm]/.test(next.romaji) ? 'm' : 'n') +
+					(next && /^[aiueoy]/.test(next.romaji) ? apostrophe : ''),
 			);
 			lastKana = out.length - 1;
 			i += 1;

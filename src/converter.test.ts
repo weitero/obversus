@@ -77,8 +77,22 @@ describe('examples from the 2025 notice', () => {
 		['にっちょく', 'nitchoku'],
 		['やっきょく', 'yakkyoku'],
 		['まっちゃ', 'matcha'],
-	])('t before ch for っ: %s -> %s', (input: string, expected: string) => {
+	])('っ as t before ch: %s -> %s', (input: string, expected: string) => {
 		expect(convert(input, reiwa7, { tBeforeCh: true })).toBe(expected);
+	});
+
+	it.each([
+		['あんまん', 'amman'],
+		['かんぱい', 'kampai'],
+		['ぎんざ', 'ginza'],
+		['しんぶん', 'shimbun'],
+		['しんばし', 'shimbashi'],
+		['らんま', 'ramma'],
+		['てんぷら', 'tempura'],
+		['たなかさん', 'tanakasan'],
+		['しちごさん', 'shichigosan'],
+	])('ん as m before b, p, m: %s -> %s', (input: string, expected: string) => {
+		expect(convert(input, reiwa7, { mBeforeLabial: true })).toBe(expected);
 	});
 
 	it.each([
