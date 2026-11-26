@@ -41,11 +41,13 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
 
 - Kana only; kanji are left unchanged.
 - A trailing っ, or a っ followed by a vowel, is left as is.
-- ん before a vowel or y gets an apostrophe (tan’i). The apostrophe that
-  separates vowel sequences that are not long vowels (ko’uta) can't be inferred
-  from kana alone.
-- Long vowels are inferred from the kana (おう, おお, ー), so verb endings like
-  give "omō".
+- ん before a vowel or y gets an apostrophe (tan’i).
+- Vowels are written out by default; long vowels are not inferred from kana.
+  For example, こうし becomes `koushi`.
+- To mark a long vowel, use ー: こーし becomes `kōshi` or `kôshi`, depending
+  on the conversion table.
+- To keep adjacent vowels separate, put ’ or ' between them: こ’うし becomes
+  `ko’ushi`, and こ'うし becomes `ko'ushi`.
 - Particles (は, へ, を) are converted literally (ha, he, o).
 - Conversion in title and properties works only in viewing mode.
 
