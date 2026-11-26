@@ -35,7 +35,7 @@ export function katakanaToHiragana(s: string): string {
 			/([ \u3000])([はへを])(?![\u3041-\u3096\u30a1-\u30fa])/gu,
 			(_match, space: string, particle: string) => space + SPACED_PARTICLES[particle],
 		)
-		.replace(/\u3000/gu, ' ');
+		.replace(/[ \u3000]+/gu, ' ');
 }
 
 export function convert(input: string, table: RomajiTable, options: ConvertOptions = {}) {
