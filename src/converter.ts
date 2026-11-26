@@ -2,6 +2,7 @@ export type RomajiTable = Record<string, string>;
 export type LongVowelMark = 'macron' | 'circumflex';
 
 interface ConvertOptions {
+	contractLongVowels?: boolean;
 	longVowelMark?: LongVowelMark;
 	capitalize?: boolean;
 	capitalizeKatakana?: boolean;
@@ -10,6 +11,7 @@ interface ConvertOptions {
 	mBeforeLabial?: boolean;
 }
 
+const LONG_VOWEL_KANA: Record<string, string> = { a: 'あ', i: 'い', u: 'う', e: 'えい', o: 'おう' };
 const MACRON: Record<string, string> = { a: 'ā', i: 'ī', u: 'ū', e: 'ē', o: 'ō' };
 const CIRCUMFLEX: Record<string, string> = { a: 'â', i: 'î', u: 'û', e: 'ê', o: 'ô' };
 const SPACED_PARTICLES: Record<string, string> = { は: 'わ', へ: 'え', を: 'お' };
@@ -39,6 +41,7 @@ export function katakanaToHiragana(s: string): string {
 }
 
 export function convert(input: string, table: RomajiTable, options: ConvertOptions = {}) {
+	const contractLongVowels = options.contractLongVowels ?? true;
 	const marks = options.longVowelMark === 'circumflex' ? CIRCUMFLEX : MACRON;
 	const apostrophe = options.apostrophe ?? '’';
 	const tBeforeCh = options.tBeforeCh ?? false;
@@ -78,6 +81,20 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 		const prevVowel = prevRomaji?.slice(-1) ?? '';
 
 		if (ch === 'ー' && prevRomaji && isVowel(prevVowel)) {
+			out[lastKana] = contractLongVowels
+				? prevRomaji.slice(0, -1) + marks[prevVowel]
+				: prevRomaji + prevVowel;
+			lastKana = -1;
+			i += 1;
+			continue;
+		}
+
+		if (
+			contractLongVowels &&
+			prevRomaji &&
+			isVowel(prevVowel) &&
+			(LONG_VOWEL_KANA[prevVowel] ?? '').includes(ch)
+		) {
 			out[lastKana] = prevRomaji.slice(0, -1) + marks[prevVowel];
 			lastKana = -1;
 			i += 1;

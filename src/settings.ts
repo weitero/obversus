@@ -6,6 +6,7 @@ import { DEFAULT_TABLE_ID, EXTENDED_TABLE, TableID, TABLES } from './tables';
 
 export interface KanaRomajiSettings {
 	tableId: TableID;
+	contractLongVowels: boolean;
 	longVowelMark: LongVowelMark;
 	capitalize: boolean;
 	capitalizeKatakana: boolean;
@@ -17,6 +18,7 @@ export interface KanaRomajiSettings {
 
 export const DEFAULT_SETTINGS: KanaRomajiSettings = {
 	tableId: DEFAULT_TABLE_ID,
+	contractLongVowels: true,
 	longVowelMark: 'macron',
 	capitalize: false,
 	capitalizeKatakana: true,
@@ -55,6 +57,18 @@ export class RomajiSettingTab extends PluginSettingTab {
 					});
 				}
 			});
+
+		new Setting(containerEl)
+			.setName('Contract long vowels')
+			.setDesc(
+				'Contract long vowels into a single and mark the vowel with either a macron or circumflex.',
+			)
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.contractLongVowels).onChange(async (value) => {
+					this.plugin.settings.contractLongVowels = value;
+					await this.plugin.saveSettings();
+				}),
+			);
 
 		new Setting(containerEl)
 			.setName('Long vowel mark')

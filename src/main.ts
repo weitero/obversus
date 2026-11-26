@@ -52,6 +52,7 @@ export default class KanaRomajiPlugin extends Plugin {
 			text,
 			{ ...getTable(tableId).table, ...this.settings.extendedTable },
 			{
+				contractLongVowels: this.settings.contractLongVowels,
 				longVowelMark: this.settings.longVowelMark,
 				capitalize: this.settings.capitalize,
 				capitalizeKatakana: this.settings.capitalizeKatakana,
