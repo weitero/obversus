@@ -3,7 +3,10 @@
 Select kana, run Convert selection to romaji, and the selection is replaced in
 place. It works in the note body, the inline title, and property (YAML) values.
 
-
+This plugin was designed initially to generate consistent romaji texts for kana names
+found in Kojiki and Nihon-Shoki to use them as note title to make it easier when
+writing links and references. This conversion is based purely on mapping tables
+and simple rules, without any semantic analysis of the texts being processed.
 
 ## About the name
 
