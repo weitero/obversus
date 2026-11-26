@@ -78,17 +78,17 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 			continue;
 		}
 
-		if (
-			macron &&
-			prevRomaji &&
-			isVowel(prevVowel) &&
-			(LONG_VOWEL_KANA[prevVowel] ?? '').includes(ch)
-		) {
-			out[lastKana] = prevRomaji.slice(0, -1) + marks[prevVowel];
-			lastKana = -1;
-			i += 1;
-			continue;
-		}
+		// if (
+		// 	macron &&
+		// 	prevRomaji &&
+		// 	isVowel(prevVowel) &&
+		// 	(LONG_VOWEL_KANA[prevVowel] ?? '').includes(ch)
+		// ) {
+		// 	out[lastKana] = prevRomaji.slice(0, -1) + marks[prevVowel];
+		// 	lastKana = -1;
+		// 	i += 1;
+		// 	continue;
+		// }
 
 		if (ch === 'ん') {
 			const next = lookup(i + 1);
