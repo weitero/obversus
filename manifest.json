@@ -1,7 +1,7 @@
 {
 	"id": "obversus",
 	"name": "Obversus",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"minAppVersion": "1.4.0",
 	"description": "Convert selected kana to romaji in place, using the 2025 or 1954 romanization tables.",
 	"author": "weitero",
