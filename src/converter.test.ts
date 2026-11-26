@@ -292,8 +292,8 @@ describe('1954 Table 2', () => {
 		['ぢゃ', 'dya'],
 		['ぢゅ', 'dyu'],
 		['ぢょ', 'dyo'],
-		['かいだん', 'kwaidan'],
-		['がいこく', 'gwaikoku'],
+		['くゎいだん', 'kwaidan'],
+		['ぐゎいこく', 'gwaikoku'],
 	])('%s -> %s', (input: string, expected: string) => {
 		expect(convert(input, showa29table2)).toBe(expected);
 	});
