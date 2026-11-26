@@ -57,6 +57,8 @@ export default class KanaRomajiPlugin extends Plugin {
 				capitalize: this.settings.capitalize,
 				capitalizeKatakana: this.settings.capitalizeKatakana,
 				apostrophe: this.settings.plainApostrophe ? "'" : '’',
+				tBeforeCh: this.settings.tBeforeCh,
+				mBeforeLabial: this.settings.mBeforeLabial,
 			},
 		);
 	}

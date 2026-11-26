@@ -11,6 +11,8 @@ export interface KanaRomajiSettings {
 	capitalize: boolean;
 	capitalizeKatakana: boolean;
 	plainApostrophe: boolean;
+	tBeforeCh: boolean;
+	mBeforeLabial: boolean;
 	extendedTable: RomajiTable;
 }
 
@@ -21,6 +23,8 @@ export const DEFAULT_SETTINGS: KanaRomajiSettings = {
 	capitalize: false,
 	capitalizeKatakana: true,
 	plainApostrophe: false,
+	tBeforeCh: false,
+	mBeforeLabial: false,
 	extendedTable: { ...EXTENDED_TABLE },
 };
 
@@ -108,6 +112,26 @@ export class RomajiSettingTab extends PluginSettingTab {
 			.addToggle((toggle) =>
 				toggle.setValue(this.plugin.settings.plainApostrophe).onChange(async (value) => {
 					this.plugin.settings.plainApostrophe = value;
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName('Use t for っ before ch')
+			.setDesc('Write t instead of c for っ before ch')
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.tBeforeCh).onChange(async (value) => {
+					this.plugin.settings.tBeforeCh = value;
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName('Use m for ん before b, p, and m')
+			.setDesc('Write m instead of n for ん before b, p, and m')
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.mBeforeLabial).onChange(async (value) => {
+					this.plugin.settings.mBeforeLabial = value;
 					await this.plugin.saveSettings();
 				}),
 			);
