@@ -11,7 +11,6 @@ interface ConvertOptions {
 	mBeforeLabial?: boolean;
 }
 
-const LONG_VOWEL_KANA: Record<string, string> = { a: 'あ', u: 'う', e: 'え', o: 'おう' };
 const MACRON: Record<string, string> = { a: 'ā', i: 'ī', u: 'ū', e: 'ē', o: 'ō' };
 const CIRCUMFLEX: Record<string, string> = { a: 'â', i: 'î', u: 'û', e: 'ê', o: 'ô' };
 const SPACED_PARTICLES: Record<string, string> = { は: 'わ', へ: 'え', を: 'お' };
@@ -88,18 +87,6 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 			i += 1;
 			continue;
 		}
-
-		// if (
-		// 	macron &&
-		// 	prevRomaji &&
-		// 	isVowel(prevVowel) &&
-		// 	(LONG_VOWEL_KANA[prevVowel] ?? '').includes(ch)
-		// ) {
-		// 	out[lastKana] = prevRomaji.slice(0, -1) + marks[prevVowel];
-		// 	lastKana = -1;
-		// 	i += 1;
-		// 	continue;
-		// }
 
 		if (ch === 'ん') {
 			const next = lookup(i + 1);
