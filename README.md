@@ -45,7 +45,8 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
 - Vowels are written out by default; long vowels are not inferred from kana.
   For example, こうし becomes `koushi`.
 - To mark a long vowel, use ー: こーし becomes `kōshi` or `kôshi`, depending
-  on the conversion table.
+  on the conversion table. Using ー in hiragana is unconventional; here it
+  simply helps the plugin identify long vowels.
 - To keep adjacent vowels separate, put ’ or ' between them: こ’うし becomes
   `ko’ushi`, and こ'うし becomes `ko'ushi`.
 - Particles (は, へ, を) are converted literally (ha, he, o).
