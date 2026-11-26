@@ -72,6 +72,16 @@ describe('examples from the 2025 notice', () => {
 	});
 
 	it.each([
+		['ざっし', 'zasshi'],
+		['てっぱん', 'teppan'],
+		['にっちょく', 'nitchoku'],
+		['やっきょく', 'yakkyoku'],
+		['まっちゃ', 'matcha'],
+	])('t before ch for っ: %s -> %s', (input: string, expected: string) => {
+		expect(convert(input, reiwa7, { tBeforeCh: true })).toBe(expected);
+	});
+
+	it.each([
 		['かーさん', 'kāsan'],
 		['まー', 'mā'],
 		['かわいー', 'kawaī'],
