@@ -205,13 +205,6 @@ describe('katakana', () => {
 			expect(convert(input, reiwa7)).toBe(expected);
 		},
 	);
-
-	it.each([['ラーメン', 'raamen']])(
-		'long vowels without a macron: %s -> %s',
-		(input: string, expected: string) => {
-			expect(convert(input, reiwa7, { markLongVowels: false })).toBe(expected);
-		},
-	);
 });
 
 describe('particles preceded by spaces', () => {
