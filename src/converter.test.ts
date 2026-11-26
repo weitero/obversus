@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { containsKana, convert, isAllKatakana } from './converter';
+import { containsKana, convert, isAllKatakana, katakanaToHiragana } from './converter';
 import { getTable } from './tables';
 
 const reiwa7 = getTable('reiwa7').table;
@@ -29,6 +29,15 @@ describe('isAllKatakana', () => {
 		['', false],
 	])("'%s' -> %s", (input: string, expected: boolean) => {
 		expect(isAllKatakana(input)).toBe(expected);
+	});
+});
+
+describe('katakanaToHiragana', () => {
+	it.each([
+		['ア　イ', 'あ い'],
+		['あ　イ', 'あ い'],
+	])('%s -> %s', (input: string, expected: string) => {
+		expect(katakanaToHiragana(input)).toBe(expected);
 	});
 });
 
@@ -170,6 +179,31 @@ describe('katakana', () => {
 			expect(convert(input, reiwa7, { macron: false })).toBe(expected);
 		},
 	);
+});
+
+describe('particles preceded by spaces', () => {
+	it.each([
+		[' は ', ' wa '],
+		['　へ　', ' e '],
+		[' を　', ' o '],
+		[' ハ ', ' wa '],
+		['　ヘ ', ' e '],
+		[' ヲ　', ' o '],
+		[' は', ' wa'],
+		['　を', ' o'],
+		[' ハ', ' wa'],
+		['　ヘ', ' e'],
+	])('%s -> %s', (input: string, expected: string) => {
+		expect(convert(input, reiwa7)).toBe(expected);
+	});
+
+	it.each([
+		['は ', 'ha '],
+		['へ', 'he'],
+		['ヲ ', 'o '],
+	])('does not convert an unspaced particle: %s', (input: string, expected: string) => {
+		expect(convert(input, reiwa7)).toBe(expected);
+	});
 });
 
 describe('capitalization', () => {

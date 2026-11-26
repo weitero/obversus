@@ -49,7 +49,9 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
   simply helps the plugin identify long vowels.
 - To keep adjacent vowels separate, put ’ or ' between them: こ’うし becomes
   `ko’ushi`, and こ'うし becomes `ko'ushi`.
-- Particles (は, へ, を) are converted literally (ha, he, o).
+- Particles (は, へ, を) are converted literally (ha, he, o), except when
+  preceded by a half- or full-width space, when they become wa, e, o. This
+  also applies to katakana. Full-width spaces are normalized to half-width.
 - Conversion in title and properties works only in viewing mode.
 
 ## Sources and disclaimer

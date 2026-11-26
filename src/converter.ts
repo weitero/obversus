@@ -12,6 +12,7 @@ interface ConvertOptions {
 const LONG_VOWEL_KANA: Record<string, string> = { a: 'あ', u: 'う', e: 'え', o: 'おう' };
 const MACRON: Record<string, string> = { a: 'ā', i: 'ī', u: 'ū', e: 'ē', o: 'ō' };
 const CIRCUMFLEX: Record<string, string> = { a: 'â', i: 'î', u: 'û', e: 'ê', o: 'ô' };
+const SPACED_PARTICLES: Record<string, string> = { は: 'わ', へ: 'え', を: 'お' };
 const VOWELS = 'aiueo';
 const isVowel = (c: string) => c.length === 1 && VOWELS.includes(c);
 
@@ -29,7 +30,12 @@ export function katakanaToHiragana(s: string): string {
 		const c = ch.codePointAt(0)!;
 		r += c >= 0x30a1 && c <= 0x30f6 ? String.fromCodePoint(c - 0x60) : ch;
 	}
-	return r;
+	return r
+		.replace(
+			/([ \u3000])([はへを])/gu,
+			(_match, space: string, particle: string) => space + SPACED_PARTICLES[particle],
+		)
+		.replace(/\u3000/gu, ' ');
 }
 
 export function convert(input: string, table: RomajiTable, options: ConvertOptions = {}) {
