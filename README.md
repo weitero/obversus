@@ -37,10 +37,8 @@ npm run build
 
 Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
 
-## Known limits
+## Conversion rules
 
-- Kana only; kanji are left unchanged.
-- A trailing っ, or a っ followed by a vowel, is left as is.
 - ん before a vowel or y gets an apostrophe (tan’i).
 - Vowels are written out by default; long vowels are not inferred from kana.
   For example, こうし becomes `koushi`.
@@ -52,6 +50,11 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
 - Particles (は, へ, を) are converted literally (ha, he, o), except when
   preceded by a half- or full-width space, when they become wa, e, o. This
   also applies to katakana. Full-width spaces are normalized to half-width.
+
+## Known limits
+
+- Kana only; kanji are left unchanged.
+- A trailing っ, or a っ followed by a vowel, is left as is.
 - Conversion in title and properties works only in viewing mode.
 
 ## Sources and disclaimer
