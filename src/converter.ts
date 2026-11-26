@@ -71,7 +71,7 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 
 		if (ch === 'ー' && prevRomaji && isVowel(prevVowel)) {
 			out[lastKana] = macron
-				? prevRomaji.slice(0, -1) + MACRON[prevVowel]
+				? prevRomaji.slice(0, -1) + marks[prevVowel]
 				: prevRomaji + prevVowel;
 			lastKana = -1;
 			i += 1;
