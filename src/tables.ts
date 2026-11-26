@@ -134,8 +134,6 @@ const SHOWA29_TABLE1_OVERRIDES: RomajiTable = {
 	ぢゃ: 'zya',
 	ぢゅ: 'zyu',
 	ぢょ: 'zyo',
-	か: 'ka',
-	が: 'ga',
 };
 
 const SHOWA29_TABLE2_OVERRIDES: RomajiTable = {
@@ -159,8 +157,8 @@ const SHOWA29_TABLE2_OVERRIDES: RomajiTable = {
 	ぢゃ: 'dya',
 	ぢゅ: 'dyu',
 	ぢょ: 'dyo',
-	か: 'kwa',
-	が: 'gwa',
+	くゎ: 'kwa',
+	ぐゎ: 'gwa',
 };
 
 export const TABLES: Record<TableID, { label: string; shortLabel: string; table: RomajiTable }> = {
@@ -181,7 +179,7 @@ export function getTable(id: TableID) {
 	return TABLES[id];
 }
 
-export const EXTENDED_TABLE: RomajiTable = { くゎ: 'kwa', ぐゎ: 'gwa' };
+export const EXTENDED_TABLE: RomajiTable = {};
 const KANA_KEY = /^[\u3041-\u3096\u30a1-\u30fa\u30fc]{1,2}$/u;
 
 type EntryResult = { ok: true; table: RomajiTable; message: string } | { ok: false; error: string };
