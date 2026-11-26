@@ -72,7 +72,9 @@ export default class KanaRomajiPlugin extends Plugin {
 		} else if (
 			active instanceof HTMLElement &&
 			active.isContentEditable &&
-			!active.closest('.cm-editor, .prompt, .modal')
+			!active.closest('.prompt, .modal') &&
+			(!active.closest('.cm-editor') ||
+				active.closest('.inline-title, .metadata-property-value'))
 		) {
 			this.convertInContentEditable(active, tableId);
 		} else {
