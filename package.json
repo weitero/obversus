@@ -1,6 +1,6 @@
 {
 	"name": "obversus",
-	"version": "0.8.1",
+	"version": "0.9.0",
 	"description": "Obversus: convert selected kana to romaji in place in Obsidian",
 	"main": "main.js",
 	"type": "module",
