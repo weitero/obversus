@@ -52,7 +52,7 @@ export default class KanaRomajiPlugin extends Plugin {
 			text,
 			{ ...getTable(tableId).table, ...this.settings.extendedTable },
 			{
-				macron: this.settings.macron,
+				//macron: this.settings.macron,
 				longVowelMark: this.settings.longVowelMark,
 				capitalize: this.settings.capitalize,
 				capitalizeKatakana: this.settings.capitalizeKatakana,

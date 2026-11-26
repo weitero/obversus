@@ -6,7 +6,7 @@ import { DEFAULT_TABLE_ID, EXTENDED_TABLE, TableID, TABLES } from './tables';
 
 export interface KanaRomajiSettings {
 	tableId: TableID;
-	macron: boolean;
+	//macron: boolean;
 	longVowelMark: LongVowelMark;
 	capitalize: boolean;
 	capitalizeKatakana: boolean;
@@ -16,7 +16,7 @@ export interface KanaRomajiSettings {
 
 export const DEFAULT_SETTINGS: KanaRomajiSettings = {
 	tableId: DEFAULT_TABLE_ID,
-	macron: true,
+	//macron: true,
 	longVowelMark: 'macron',
 	capitalize: false,
 	capitalizeKatakana: true,
@@ -54,17 +54,17 @@ export class RomajiSettingTab extends PluginSettingTab {
 				}
 			});
 
-		new Setting(containerEl)
-			.setName('Mark long vowels with macrons')
-			.setDesc(
-				'Write ā, ū, ē, ō for long vowels. When off, vowels are written out (aa, uu, ee, ou',
-			)
-			.addToggle((toggle) =>
-				toggle.setValue(this.plugin.settings.macron).onChange(async (value) => {
-					this.plugin.settings.macron = value;
-					await this.plugin.saveSettings();
-				}),
-			);
+		// new Setting(containerEl)
+		// 	.setName('Mark long vowels with macrons')
+		// 	.setDesc(
+		// 		'Write ā, ū, ē, ō for long vowels. When off, vowels are written out (aa, uu, ee, ou',
+		// 	)
+		// 	.addToggle((toggle) =>
+		// 		toggle.setValue(this.plugin.settings.macron).onChange(async (value) => {
+		// 			this.plugin.settings.macron = value;
+		// 			await this.plugin.saveSettings();
+		// 		}),
+		// 	);
 
 		new Setting(containerEl)
 			.setName('Long vowel mark')
