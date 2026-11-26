@@ -209,7 +209,7 @@ describe('katakana', () => {
 	it.each([['ラーメン', 'raamen']])(
 		'long vowels without a macron: %s -> %s',
 		(input: string, expected: string) => {
-			expect(convert(input, reiwa7, { macron: false })).toBe(expected);
+			expect(convert(input, reiwa7, { markLongVowels: false })).toBe(expected);
 		},
 	);
 });
