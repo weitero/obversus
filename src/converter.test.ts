@@ -54,58 +54,58 @@ describe('examples from the 2025 notice', () => {
 	});
 
 	it.each([
-		['かあさん', 'kāsan'],
-		['まあ', 'mā'],
-		['かわいい', 'kawaii'],
-		['しいたけ', 'shiitake'],
-		['にいさん', 'niisan'],
-		['じゅうごや', 'jūgoya'],
-		['ふうりゅう', 'fūryū'],
-		['ええ', 'ē'],
-		['ねえさん', 'nēsan'],
-		['やじろべえ', 'yajirobē'],
-		['ていえん', 'teien'],
-		['とけいだい', 'tokeidai'],
-		['へいせい', 'heisei'],
-		['おおかみ', 'ōkami'],
-		['ほおずき', 'hōzuki'],
-		['とうほく', 'tōhoku'],
-		['ぼうそう', 'bōsō'],
-		['おおどうぐ', 'ōdōgu'],
-		['こおりどうふ', 'kōridōfu'],
-		['おおおじ', 'ōoji'],
-		['じゅうどう', 'jūdō'],
-		['とうきょう', 'tōkyō'],
-		['おおたわら', 'ōtawara'],
+		['かーさん', 'kāsan'],
+		['まー', 'mā'],
+		['かわいー', 'kawaī'],
+		['しーたけ', 'shītake'],
+		['にーさん', 'nīsan'],
+		['じゅーごや', 'jūgoya'],
+		['ふーりゅー', 'fūryū'],
+		['えー', 'ē'],
+		['ねーさん', 'nēsan'],
+		['やじろべー', 'yajirobē'],
+		['てーえん', 'tēen'],
+		['とけーだい', 'tokēdai'],
+		['へーせー', 'hēsē'],
+		['おーかみ', 'ōkami'],
+		['ほーずき', 'hōzuki'],
+		['とーほく', 'tōhoku'],
+		['ぼーそー', 'bōsō'],
+		['おーどーぐ', 'ōdōgu'],
+		['こーりどーふ', 'kōridōfu'],
+		['おーおじ', 'ōoji'],
+		['じゅーどー', 'jūdō'],
+		['とーきょー', 'tōkyō'],
+		['おーたわら', 'ōtawara'],
 	])('long vowels with a macron: %s -> %s', (input: string, expected: string) => {
-		expect(convert(input, reiwa7)).toBe(expected);
+		expect(convert(input, reiwa7, { longVowelMark: 'macron' })).toBe(expected);
 	});
 
 	it.each([
-		['かあさん', 'kâsan'],
-		['まあ', 'mâ'],
-		['かわいい', 'kawaii'],
-		['しいたけ', 'shiitake'],
-		['にいさん', 'niisan'],
-		['じゅうごや', 'jûgoya'],
-		['ふうりゅう', 'fûryû'],
-		['ええ', 'ê'],
-		['ねえさん', 'nêsan'],
-		['やじろべえ', 'yajirobê'],
-		['ていえん', 'teien'],
-		['とけいだい', 'tokeidai'],
-		['へいせい', 'heisei'],
-		['おおかみ', 'ôkami'],
-		['ほおずき', 'hôzuki'],
-		['とうほく', 'tôhoku'],
-		['ぼうそう', 'bôsô'],
-		['おおどうぐ', 'ôdôgu'],
-		['こおりどうふ', 'kôridôfu'],
-		['おおおじ', 'ôoji'],
-		['じゅうどう', 'jûdô'],
-		['とうきょう', 'tôkyô'],
-		['おおたわら', 'ôtawara'],
-	])('long vowels with a macron: %s -> %s', (input: string, expected: string) => {
+		['かーさん', 'kâsan'],
+		['まー', 'mâ'],
+		['かわいー', 'kawaî'],
+		['しーたけ', 'shîtake'],
+		['にーさん', 'nîsan'],
+		['じゅーごや', 'jûgoya'],
+		['ふーりゅー', 'fûryû'],
+		['えー', 'ê'],
+		['ねーさん', 'nêsan'],
+		['やじろべー', 'yajirobê'],
+		['てーえん', 'têen'],
+		['とけーだい', 'tokêdai'],
+		['へーせー', 'hêsê'],
+		['おーかみ', 'ôkami'],
+		['ほーずき', 'hôzuki'],
+		['とーほく', 'tôhoku'],
+		['ぼーそー', 'bôsô'],
+		['おーどーぐ', 'ôdôgu'],
+		['こーりどーふ', 'kôridôfu'],
+		['おーおじ', 'ôoji'],
+		['じゅーどー', 'jûdô'],
+		['とーきょー', 'tôkyô'],
+		['おーたわら', 'ôtawara'],
+	])('long vowels with a circumflex: %s -> %s', (input: string, expected: string) => {
 		expect(convert(input, reiwa7, { longVowelMark: 'circumflex' })).toBe(expected);
 	});
 
@@ -134,13 +134,13 @@ describe('examples from the 2025 notice', () => {
 		['とうきょう', 'toukyou'],
 		['おおたわら', 'ootawara'],
 	])('long vowels without a macron: %s -> %s', (input: string, expected: string) => {
-		expect(convert(input, reiwa7, { macron: false })).toBe(expected);
+		expect(convert(input, reiwa7)).toBe(expected);
 	});
 
 	it.each([
 		['たんい', 'tan’i'],
 		['せんいん', 'sen’in'],
-		['えんゆうかい', 'en’yūkai'],
+		['えんゆうかい', 'en’yuukai'],
 		['とんや', 'ton’ya'],
 	])('apostrophe after ん: %s -> %s', (input: string, expected: string) => {
 		expect(convert(input, reiwa7)).toBe(expected);
@@ -149,7 +149,7 @@ describe('examples from the 2025 notice', () => {
 	it.each([
 		['たんい', "tan'i"],
 		['せんいん', "sen'in"],
-		['えんゆうかい', "en'yūkai"],
+		['えんゆうかい', "en'yuukai"],
 		['とんや', "ton'ya"],
 	])('can use a plain apostrophe: %s -> %s', (input: string, expected: string) => {
 		expect(convert(input, reiwa7, { apostrophe: "'" })).toBe(expected);
@@ -165,7 +165,7 @@ describe('katakana', () => {
 	);
 
 	it.each([['ラーメン', 'raamen']])(
-		'long vowels with a macron: %s -> %s',
+		'long vowels without a macron: %s -> %s',
 		(input: string, expected: string) => {
 			expect(convert(input, reiwa7, { macron: false })).toBe(expected);
 		},
@@ -175,7 +175,7 @@ describe('katakana', () => {
 describe('capitalization', () => {
 	it.each([
 		['いざなぎのかみ', 'Izanaginokami'],
-		['あまてらす おおみかみ', 'Amaterasu Ōmikami'],
+		['あまてらす おおみかみ', 'Amaterasu Oomikami'],
 		['すさのを-の-みこと', 'Susanoo-no-mikoto'],
 	])('%s -> %s', (input: string, expected: string) => {
 		expect(convert(input, reiwa7, { capitalize: true })).toBe(expected);
@@ -185,7 +185,7 @@ describe('capitalization', () => {
 describe('capitalize katakana', () => {
 	it.each([
 		['イザナギノカミ', 'Izanaginokami'],
-		['アマテラス オオミカミ', 'Amaterasu Ōmikami'],
+		['アマテラス オオミカミ', 'Amaterasu Oomikami'],
 		['スサノヲ-ノ-ミコト', 'Susanoo-no-mikoto'],
 	])('%s -> %s', (input: string, expected: string) => {
 		expect(convert(input, reiwa7, { capitalize: false, capitalizeKatakana: true })).toBe(
@@ -202,13 +202,13 @@ describe('1954 Table 1', () => {
 		['おじいさん', 'oziisan'],
 		['おぢいさん', 'oziisan'],
 		['しゃく', 'syaku'],
-		['まんようしゅう', 'man’yōsyū'],
-		['しょうゆ', 'syōyu'],
+		['まんようしゅう', 'man’yousyuu'],
+		['しょうゆ', 'syouyu'],
 		['まっちゃ', 'mattya'],
-		['ちゅうあい', 'tyūai'],
-		['ぶちょう', 'butyō'],
+		['ちゅうあい', 'tyuuai'],
+		['ぶちょう', 'butyou'],
 		['じんじゃ', 'zinzya'],
-		['じょうじゅ', 'zyōzyu'],
+		['じょうじゅ', 'zyouzyu'],
 		['ぢゃ', 'zya'],
 		['ぢゅ', 'zyu'],
 		['ぢょ', 'zyo'],
