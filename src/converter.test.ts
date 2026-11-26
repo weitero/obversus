@@ -36,6 +36,12 @@ describe('katakanaToHiragana', () => {
 	it.each([
 		['ア　イ', 'あ い'],
 		['あ　イ', 'あ い'],
+		[' は ', ' わ '],
+		['　へ　', ' え '],
+		[' を。', ' お。'],
+		[' へ', ' え'],
+		[' はる', ' はる'],
+		['　をカ', ' をか'],
 	])('%s -> %s', (input: string, expected: string) => {
 		expect(katakanaToHiragana(input)).toBe(expected);
 	});
