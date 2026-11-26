@@ -83,18 +83,6 @@ export class RomajiSettingTab extends PluginSettingTab {
 			});
 
 		new Setting(containerEl)
-			.setName('Capitalize each word')
-			.setDesc(
-				'Capitalize the first letter of each space-separated word. Handy for names and titles.',
-			)
-			.addToggle((toggle) =>
-				toggle.setValue(this.plugin.settings.capitalize).onChange(async (value) => {
-					this.plugin.settings.capitalize = value;
-					await this.plugin.saveSettings();
-				}),
-			);
-
-		new Setting(containerEl)
 			.setName('Capitalize katakana')
 			.setDesc(
 				'When the selection is all katakana (for example a name or loanword), capitalize the first letter of each word.',
@@ -102,6 +90,18 @@ export class RomajiSettingTab extends PluginSettingTab {
 			.addToggle((toggle) =>
 				toggle.setValue(this.plugin.settings.capitalizeKatakana).onChange(async (value) => {
 					this.plugin.settings.capitalizeKatakana = value;
+					await this.plugin.saveSettings();
+				}),
+			);
+
+		new Setting(containerEl)
+			.setName('Capitalize each word')
+			.setDesc(
+				'Capitalize the first letter of each space-separated word. Handy for names and titles.',
+			)
+			.addToggle((toggle) =>
+				toggle.setValue(this.plugin.settings.capitalize).onChange(async (value) => {
+					this.plugin.settings.capitalize = value;
 					await this.plugin.saveSettings();
 				}),
 			);
