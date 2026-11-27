@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { containsKana, convert, isAllKatakana, katakanaToHiragana } from './converter';
+import { capitalize, containsKana, convert, isAllKatakana, katakanaToHiragana } from './converter';
 import { getTable } from './tables';
 
 const reiwa7 = getTable('reiwa7').table;
@@ -47,6 +47,17 @@ describe('katakanaToHiragana', () => {
 		['　をカ', ' をか'],
 	])('%s -> %s', (input: string, expected: string) => {
 		expect(katakanaToHiragana(input)).toBe(expected);
+	});
+});
+
+describe('capitalization', () => {
+	it.each([
+		['izanaginokami', 'Izanaginokami'],
+		['amaterasu ōmikami', 'Amaterasu Ōmikami'],
+		['susanoo-no-mikoto', 'Susanoo-no-mikoto'],
+		['susanoo no mikoto', 'Susanoo no Mikoto'],
+	])('%s -> %s', (input: string, expected: string) => {
+		expect(capitalize(input)).toBe(expected);
 	});
 });
 
@@ -240,28 +251,6 @@ describe('particles preceded by spaces', () => {
 		['ヲ ', 'o '],
 	])('does not convert an unspaced particle: %s', (input: string, expected: string) => {
 		expect(convert(input, reiwa7)).toBe(expected);
-	});
-});
-
-describe('capitalization', () => {
-	it.each([
-		['いざなぎのかみ', 'Izanaginokami'],
-		['あまてらす おおみかみ', 'Amaterasu Ōmikami'],
-		['すさのを-の-みこと', 'Susanoo-no-mikoto'],
-	])('%s -> %s', (input: string, expected: string) => {
-		expect(convert(input, reiwa7, { capitalize: true })).toBe(expected);
-	});
-});
-
-describe('capitalize katakana', () => {
-	it.each([
-		['イザナギノカミ', 'Izanaginokami'],
-		['アマテラス オオミカミ', 'Amaterasu Ōmikami'],
-		['スサノヲ-ノ-ミコト', 'Susanoo-no-mikoto'],
-	])('%s -> %s', (input: string, expected: string) => {
-		expect(convert(input, reiwa7, { capitalize: false, capitalizeKatakana: true })).toBe(
-			expected,
-		);
 	});
 });
 
