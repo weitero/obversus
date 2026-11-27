@@ -40,6 +40,26 @@ export function katakanaToHiragana(s: string): string {
 		.replace(/[ \u3000]+/gu, ' ');
 }
 
+export function capitalize(s: string) {
+	return s.replace(
+		/(^|\s)(\S)/gu,
+		(match: string, boundary: string, c: string, offset: number, text: string) => {
+			const wordStart = offset + boundary.length;
+			const before = wordStart > 0 ? text[wordStart - 1] : undefined;
+			const after = text[wordStart + 2];
+			const isSpacedNo =
+				c.toLowerCase() === 'n' &&
+				text.slice(wordStart, wordStart + 2).toLowerCase() === 'no' &&
+				before !== undefined &&
+				/\s/u.test(before) &&
+				after !== undefined &&
+				/\s/u.test(after);
+
+			return isSpacedNo ? match : boundary + c.toUpperCase();
+		},
+	);
+}
+
 export function convert(input: string, table: RomajiTable, options: ConvertOptions = {}) {
 	const contractLongVowels = options.contractLongVowels ?? true;
 	const marks = options.longVowelMark === 'circumflex' ? CIRCUMFLEX : MACRON;
@@ -125,11 +145,5 @@ export function convert(input: string, table: RomajiTable, options: ConvertOptio
 	}
 
 	const res = out.join('');
-	if (options.capitalize || (options.capitalizeKatakana && isAllKatakana(input))) {
-		return res.replace(
-			/(^|\s)(\S)/gu,
-			(_, space: string, c: string) => space + c.toUpperCase(),
-		);
-	}
 	return res;
 }
