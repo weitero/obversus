@@ -53,16 +53,19 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
 - っ is represented by repeating the following consonant. When the consonant
   is two characters, the first character (s of sh, c of ch, etc.) is
   repeated. See Known Limits about trailing っ.
-- Vowels are written out by default; long vowels are not inferred from kana (as
-  it is impossible to infer precisely without knowing the meaning of the word).
-  For example, こうし becomes `koushi`.
-    - To mark a long vowel, use ー: コーシ/こーし becomes `kōshi` or `kôshi`,
-      depending on the conversion table. Using ー in hiragana is unconventional;
-      here it simply helps the plugin identify long vowels.
-        - Long vowels in い-row or え-row are recommended to be written out like
-          '-ii' or '-ei'.
-    - To keep adjacent vowels separate, put ’ or ' between them: こ’うし becomes
-      `ko’ushi`, and こ'うし becomes `ko'ushi`.
+- Long vowels are contracted by default:
+    - A repeated vowel or vowel sequence is written with one marked vowel:
+      かあ → kā, しい → shī, じゅう → jū, ええ/ていえん → ē/tēen,
+      おお/とう → ō/tō.
+    - `ー` after a kana ending in a vowel is contracted in the same way:
+      かー → kā, ラーメン → rāmen.
+    - The mark can be changed in Settings from a macron (`ā, ī, ū, ē, ō`) to
+      a circumflex (`â, î, û, ê, ô`).
+- Disabling **Contract long vowels** leaves both long-vowel forms expanded:
+  かあ → kaasan, じゅう → juugoya, ラーメン → raamen. The marks are not used
+  in this mode.
+- To keep adjacent vowels separate, insert an apostrophe between them:
+  こ’うし → ko’ushi, こ'うし → ko'ushi.
 - Capitalization can be enabled in settings.
 - Particles (は, へ, を) are converted literally (ha, he, o), except when
   preceded by a half- or full-width space, when they become wa, e, o. This
