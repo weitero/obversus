@@ -1,5 +1,5 @@
 import { Editor, Notice, Plugin } from 'obsidian';
-import { containsKana, convert } from './converter';
+import { capitalize, containsKana, convert } from './converter';
 import { DEFAULT_SETTINGS, KanaRomajiSettings, RomajiSettingTab, TABLE_IDS } from './settings';
 import { DEFAULT_TABLE_ID, EXTENDED_TABLE, getTable, TableID, TABLES } from './tables';
 
@@ -114,7 +114,9 @@ export default class KanaRomajiPlugin extends Plugin {
 			new Notice('Select some kana characters first.');
 			return;
 		}
-		const replaced = this.toRomaji(text, tableId);
+		const replaced = el.closest('.inline-title')
+			? capitalize(this.toRomaji(text, tableId))
+			: this.toRomaji(text, tableId);
 		if (!activeDocument.execCommand('insertText', false, replaced)) {
 			const range = selection.getRangeAt(0);
 			range.deleteContents();
