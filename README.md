@@ -66,7 +66,12 @@ Copy `main.js` and `manifest.json` into `<vault>/.obsidian/plugins/obversus/`.
   in this mode.
 - To keep adjacent vowels separate, insert an apostrophe between them:
   こ’うし → ko’ushi, こ'うし → ko'ushi.
-- Capitalization can be enabled in settings.
+- Capitalization can be enabled in settings. When enabled, the first
+  non-whitespace character at the start of the converted text and after each
+  whitespace is uppercased (for example, `yama no kami` becomes
+  `Yama no Kami`). Other characters are unchanged. The standalone word `no`
+  stays lowercase when surrounded by whitespace, preserving the romanized
+  particle の.
 - Particles (は, へ, を) are converted literally (ha, he, o), except when
   preceded by a half- or full-width space, when they become wa, e, o. This
   also applies to katakana. Full-width spaces are normalized to half-width.
